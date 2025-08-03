@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Log;
 
 
 class PostController extends Controller
@@ -50,8 +51,18 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'body' => 'required',
         ]);
+
+        Log::info('title: ' . $request->title);
+        Log::info('body: ' . $request->body);
+
+
         $post = Post::find($id);
+        Log::info('Processing data: ' . $post);
+
         $post->update($request->all());
+
+        Log::info('updating data: ' . $post);
+
         return redirect()->route('posts.index')
             ->with('success', 'Post updated successfully.');
     }
